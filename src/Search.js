@@ -1,22 +1,28 @@
 import React, {Component} from 'react'
 
-class ListBooks extends Component{
+class Search extends Component{
+    constructor(props){
+        super(props);
+        this.state = {books: this.props.books}
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log("componentWillRecieveProps")
+        this.setState({ books: nextProps.books });  
+    }
     render(){
-        const { books, shelfStatus, onChangeShelf } = this.props;
-        const currentShelf = shelfStatus;
+        const { onChangeShelf } = this.props;
+        const { books } = this.state;
         return(
       
                     <div className="bookshelf-books">
                         <ol className="books-grid">
-                        {books.filter(function(book){
-                            return book.shelf === currentShelf;
-                        }).map((book) => (
+                        {books.map((book) => (
                             <li key={book.title + book.authors}>
                                 <div className="book">
                                     <div className="book-top">
                                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                         <div className="book-shelf-changer">
-                                                <select defaultValue={book.shelf} onChange={(e) =>onChangeShelf(book, e.target.value)
+                                                <select defaultValue="none" onChange={(e) =>onChangeShelf(book, e.target.value)
                                                     }>
                                                     <option value="none" disabled>Move to...</option>
                                                     <option value="currentlyReading">Currently Reading</option>
@@ -36,4 +42,4 @@ class ListBooks extends Component{
         ) 
     }
 }
-export default ListBooks
+export default Search

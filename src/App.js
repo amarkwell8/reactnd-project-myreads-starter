@@ -2,10 +2,13 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ListBooks from './ListBooks'
+import Search from './Search'
 
 class BooksApp extends React.Component {
   state = {
+    searchBooks:[],
     books:[],
+    query: '',
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -20,18 +23,41 @@ class BooksApp extends React.Component {
         this.setState(() => ({
           books
         }))
-        console.log(books);
+      });
+  }
+   updateQuery = (query) => {
+        this.setState((currentState) => ({
+            query: query.trim()
+        }))
+        if(query.length === 0){
+          this.setState({searchBooks: []})
+        }
+        else{
+          this.searchForBooks(query);
+        }
+    }
+  searchForBooks = (query) => {
+      BooksAPI.search(query)
+      .then((searchBooks) =>{
+        this.setState(() => ({
+          searchBooks
+        }))
+
       })
   }
-  changeShelf = (book) => {
-    BooksAPI.update(book)
+  changeShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
       .then((books) =>{
-        this.setState(() => ({
-          books
-        }))
+        BooksAPI.getAll()
+          .then((books) =>{
+            this.setState(() => ({
+              books
+            }))
+          })
       })
   }
   render() {
+    const { searchBooks, books, query, showSearchPage } = this.state
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -46,13 +72,23 @@ class BooksApp extends React.Component {
 
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
+                */
+                }
+                <input 
+                  type="text" 
+                  placeholder="Search by title or author"
+                  value={query}
+                  onChange={(event) => this.updateQuery(event.target.value)}
+                />
 
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                {query.length > 0 && (
+                  <Search books={this.state.searchBooks} onChangeShelf={this.changeShelf} />
+                )}
+              </ol>
             </div>
           </div>
         ) : (
@@ -67,9 +103,7 @@ class BooksApp extends React.Component {
                     <div className="bookshelf-books">
                       <ol className="books-grid">
                         <ListBooks books={this.state.books} shelfStatus="currentlyReading" 
-                          onChangeShelf={(book) => {
-                            this.changeShelf(book)
-                          }}
+                          onChangeShelf={this.changeShelf}
                         />
                       </ol>
                     </div>
@@ -78,7 +112,9 @@ class BooksApp extends React.Component {
                     <h2 className="bookshelf-title">Want to Read</h2>
                     <div className="bookshelf-books">
                       <ol className="books-grid">
-                        <ListBooks books={this.state.books} shelfStatus="wantToRead" />
+                        <ListBooks books={this.state.books} shelfStatus="wantToRead" 
+                           onChangeShelf={this.changeShelf}
+                        />
                       </ol>
                     </div>
                   </div>
@@ -86,7 +122,9 @@ class BooksApp extends React.Component {
                     <h2 className="bookshelf-title">Read</h2>
                     <div className="bookshelf-books">
                       <ol className="books-grid">
-                        <ListBooks books={this.state.books} shelfStatus="read" />
+                        <ListBooks books={this.state.books} shelfStatus="read" 
+                           onChangeShelf={this.changeShelf}
+                        />
                       </ol>
                     </div>
                   </div>
