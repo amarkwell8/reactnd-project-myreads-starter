@@ -12,6 +12,16 @@ function checkBackgroundImage(book){
         )
     }
 }
+function checkDefaultValue(book, onShelf){
+    const result = onShelf.filter(e => e.id === book.id);
+    console.log(result)
+    if(result.length > 0){
+        return result.shelf
+    }
+    else{
+        return 'none'
+    }
+}
 class Search extends Component{
     constructor(props){
         super(props);
@@ -24,7 +34,7 @@ class Search extends Component{
         this.setState({ books: nextProps.books });  
     }
     render(){
-        const { onChangeShelf } = this.props;
+        const { onShelf, onChangeShelf } = this.props;
         const { books } = this.state;
         return(
       
@@ -36,7 +46,7 @@ class Search extends Component{
                                     <div className="book-top">
                                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  checkBackgroundImage(book)}}></div>
                                         <div className="book-shelf-changer">
-                                                <select defaultValue="none" onChange={(e) =>onChangeShelf(book, e.target.value)
+                                                <select defaultValue={checkDefaultValue(book, onShelf)} onChange={(e) =>onChangeShelf(book, e.target.value)
                                                     }>
                                                     <option value="none" disabled>Move to...</option>
                                                     <option value="currentlyReading">Currently Reading</option>
