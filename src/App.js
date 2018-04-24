@@ -27,7 +27,7 @@ class BooksApp extends React.Component {
   }
    updateQuery = (query) => {
         this.setState((currentState) => ({
-            query: query.trim()
+            query: query
         }))
         if(query.length === 0){
           this.setState({searchBooks: []})
@@ -42,7 +42,9 @@ class BooksApp extends React.Component {
         this.setState(() => ({
           searchBooks
         }))
-
+      })
+      .catch((e) =>{
+        this.setState({searchBooks: []})
       })
   }
   changeShelf = (book, shelf) => {
@@ -75,6 +77,7 @@ class BooksApp extends React.Component {
                 */
                 }
                 <input 
+                  className="search-input"
                   type="text" 
                   placeholder="Search by title or author"
                   value={query}
@@ -86,7 +89,7 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
                 {query.length > 0 && (
-                  <Search books={this.state.searchBooks} onChangeShelf={this.changeShelf} />
+                  <Search books={this.state.searchBooks} onShelf={this.state.books} onChangeShelf={this.changeShelf} />
                 )}
               </ol>
             </div>
