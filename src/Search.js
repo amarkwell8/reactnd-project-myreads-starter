@@ -13,8 +13,7 @@ function checkBackgroundImage(book){
     }
 }
 function checkDefaultValue(book, onShelf){
-    const result = onShelf.filter(e => e.id === book.id);
-    console.log(result)
+    const result = onShelf.filter(e => e.id === book.id)
     if(result.length > 0){
         return result.shelf
     }
