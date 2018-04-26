@@ -1,17 +1,5 @@
 import React, {Component} from 'react'
-
-function checkBackgroundImage(book){
-    if(book.imageLinks){
-        return (
-            `url(${book.imageLinks.thumbnail})`
-        )
-    }
-    else{
-        return(
-            ''
-        )
-    }
-}
+import Book from './Book'
 
 class ListBooks extends Component{
     render(){
@@ -24,27 +12,7 @@ class ListBooks extends Component{
                         {books.filter(function(book){
                             return book.shelf === currentShelf;
                         }).map((book) => (
-                            <li key={book.id}>
-                                <div className="book">
-                                    <div className="book-top">
-                                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: checkBackgroundImage(book)}}></div>
-                                        <div className="book-shelf-changer">
-                                                <select defaultValue={book.shelf} onChange={(e) =>onChangeShelf(book, e.target.value)
-                                                    }>
-                                                    <option value="none" disabled>Move to...</option>
-                                                    <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="wantToRead">Want to Read</option>
-                                                    <option value="read">Read</option>
-                                                    <option value="none">None</option>
-                                                </select>
-                                        </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                   {book.authors && (book.authors.map((author) =>(
-                                        <div key={author} className="book-authors">{author}</div>
-                                   )))}
-                                </div>
-                            </li>
+                            <Book key={book.id} book={book} onChangeShelf={this.props.onChangeShelf}  defaultShelf={book.shelf}/>
                         ))}
                         </ol>
                     </div>
