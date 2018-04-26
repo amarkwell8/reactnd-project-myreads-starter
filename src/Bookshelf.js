@@ -12,14 +12,14 @@ class Bookshelf extends Component{
         this.setState({ books: nextProps.books });  
     }
     render(){
-        const { shelfStatus, onChangeShelf } = this.props;
+        const { shelfName, shelfStatus, onChangeShelf } = this.props;
         return(
          <div className="bookshelf">
-            <h2 className="bookshelf-title">{shelfStatus}</h2>
+            <h2 className="bookshelf-title">{shelfName}</h2>
             <div className="bookshelf-books">
                 <ol className="books-grid">
                     <ListBooks books={this.state.books} shelfStatus={shelfStatus}
-                        onChangeShelf={this.props.onChangeShelf}
+                        onChangeShelf={onChangeShelf}
                     />
                 </ol>
             </div>

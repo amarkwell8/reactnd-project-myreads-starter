@@ -12,7 +12,7 @@ class ListBooks extends Component{
                         {books.filter(function(book){
                             return book.shelf === currentShelf;
                         }).map((book) => (
-                            <Book key={book.id} book={book} onChangeShelf={this.props.onChangeShelf}  defaultShelf={book.shelf}/>
+                            <Book key={book.id} book={book} onChangeShelf={onChangeShelf}  defaultShelf={book.shelf}/>
                         ))}
                         </ol>
                     </div>

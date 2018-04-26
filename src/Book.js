@@ -14,7 +14,7 @@ function checkBackgroundImage(book){
 }
 class Book extends Component {
     render() {
-        const { shelfStatus, onChangeShelf } = this.props;
+        const { onChangeShelf } = this.props;
         return (
             <li key={this.props.book.id}>
                 <div className="book">

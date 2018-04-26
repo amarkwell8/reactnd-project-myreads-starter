@@ -1,23 +1,10 @@
 import React, {Component} from 'react'
 import Book from './Book'
 
-function checkBackgroundImage(book){
-    if(book.imageLinks){
-        return (
-            `url(${book.imageLinks.thumbnail})`
-        )
-    }
-    else{
-        return(
-            ''
-        )
-    }
-}
 function checkDefaultValue(book, onShelf){
     const result = onShelf.filter(e => e.id === book.id)
-    console.log(result)
     if(result.length > 0){
-        return result.shelf
+        return result[0].shelf
     }
     else{
         return 'none'

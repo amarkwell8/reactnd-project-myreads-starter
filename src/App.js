@@ -83,7 +83,7 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <ol className="books-grid">
                 {query.length > 0 && (
-                  <Search books={this.state.searchBooks} onShelf={this.state.books} onChangeShelf={this.changeShelf} />
+                  <Search books={searchBooks} onShelf={this.state.books} onChangeShelf={this.changeShelf} />
                 )}
               </ol>
             </div>
@@ -96,9 +96,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf books={this.state.books} shelfStatus="currentlyReading" onChangeShelf={this.changeShelf}/>
-                <Bookshelf books={this.state.books} shelfStatus="wantToRead" onChangeShelf={this.changeShelf}/>
-                <Bookshelf books={this.state.books} shelfStatus="read" onChangeShelf={this.changeShelf}/>
+                <Bookshelf books={books} shelfName="Currently Reading" shelfStatus="currentlyReading" onChangeShelf={this.changeShelf}/>
+                <Bookshelf books={books} shelfName="Want To Read" shelfStatus="wantToRead" onChangeShelf={this.changeShelf}/>
+                <Bookshelf books={books} shelfName="Read" shelfStatus="read" onChangeShelf={this.changeShelf}/>
               </div>
             </div>
             <div className="open-search">
